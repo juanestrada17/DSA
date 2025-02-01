@@ -28,3 +28,27 @@ of i (including the element at index i).
 example = 
 Input: nums[] = {1, 2, 3, 4, 5} 
 Output: {120, 120, 60, 20, 5} 
+
+4. Avoiding the use of ceil ->
+
+Normally we would do 
+import math
+math.ceil(3/6)
+
+To avoid this we can just do 
+(3 + 6 - 1) // 6 
+
+EXPLANATION -> 3 // 6. In this case // does floor division. (rounding down)
+General Formula for Ceiling Division
+Mathematically, ceiling division can be defined as:
+
+⌈𝑥/𝑦⌉=𝑥+𝑦−1 / 𝑦
+
+Why?
+
+If x is exactly divisible by y, adding (y - 1) doesn’t change the result.
+If there’s a remainder, adding (y - 1) pushes the number high enough so that // rounds it up.
+
+Example = print((8 + 4 - 1)// 4) does the same as print((4 // 8)) since the remainder is 0 
+BUT print((4 + 8 - 1)// 8) doesn't do the same as print((8 // 4)) since the remainder is not 0, it pushes the number high
+enough so that it's rounded up 

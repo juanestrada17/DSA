@@ -5,6 +5,7 @@
 # 3. Check if the target is less or higher than mid 
 # 4. if it is same, we return value. Else we search in the left or right part
 
+# When calculating mid with binary search we can do left + (right - left) // 2. This prevents overflow
 sorted_list = [1, 3, 5, 7, 9, 11, 13]
 target = 1
 
