@@ -52,3 +52,9 @@ If there’s a remainder, adding (y - 1) pushes the number high enough so that /
 Example = print((8 + 4 - 1)// 4) does the same as print((4 // 8)) since the remainder is 0 
 BUT print((4 + 8 - 1)// 8) doesn't do the same as print((8 // 4)) since the remainder is not 0, it pushes the number high
 enough so that it's rounded up 
+
+5. Subsets of k merged intervals 
+
+result = (pow(2, k, MOD) - 2) % MOD
+
+we substract 2 because we don't want to include the empty subset not the full subset

@@ -24,4 +24,19 @@ while left <= right:
     else: 
         right = mid - 1 # we search in the left part, so we "remove" the right
 
+# More uses 
+# 1. find target in a sorted array 
+# 2. if we return left it represents the minimal k satisfying the condition function
 
+# def binary_search(array) -> int:
+#     def condition(value) -> bool:
+#         pass
+
+#     left, right = 0, len(array)
+#     while left < right:
+#         mid = left + (right - left) // 2
+#         if condition(mid):
+#             right = mid
+#         else:
+#             left = mid + 1
+#     return left

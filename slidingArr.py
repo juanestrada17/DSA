@@ -19,5 +19,3 @@ def calcLen(nums, target):
 
 nums = [2,3,1,2,4,3]
 target = 7
-
-print(calcLen(nums, target))

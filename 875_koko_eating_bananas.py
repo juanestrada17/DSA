@@ -9,11 +9,12 @@
 # Return the minimum integer k such that she can eat all the bananas within h hours.
 # Objective: how many bananas can eat per iteration, so that she eats all piles before h 
 
+# len(piles ) < h. [1,2,3,4,5,6] -> h = 5
 
 piles = [30,11, 23, 4, 20]
 h = 5
 
-
+# The range-> min is 1, and not 0 because if it were 0 it would mean Koko is not eating any bananas from a pile in an hour
 left, right = 1, max(piles)
 while left < right:
     mid = (left + right) // 2 
