@@ -40,3 +40,5 @@ while left <= right:
 #         else:
 #             left = mid + 1
 #     return left
+# As for the question "When can we use binary search?", my answer is that, If we can discover some kind of monotonicity,
+# for example, if condition(k) is True then condition(k + 1) is True, then we can consider binary search.

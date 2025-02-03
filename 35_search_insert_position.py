@@ -4,9 +4,6 @@ target = 7
 
 def search_insert_position(nums, target):
     left, right = 0, len(nums) - 1 
-
-    if target == 0:
-        return 0
     
     while left <= right: 
         mid = left + (right - left) // 2
