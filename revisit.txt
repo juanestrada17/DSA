@@ -5,3 +5,5 @@
 150_polish_not
 739_daily_temps
 668_kth_smallest_number
+33_search_in_rotated
+424_longest_repeating_char
