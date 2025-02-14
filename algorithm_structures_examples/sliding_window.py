@@ -35,3 +35,31 @@ print(max_sum_subarray(arr, k))  # Output: 9 (5 + 1 + 3)
 # You need an outer for loop to increment right pointer at each iteration.
 
 # You need an inner while loop to increment the left pointer whenever the window/subarray is invalid.
+
+# Algorithm template 
+
+def sliding_window(nums, k):
+    left = 0  # Left boundary of the window
+    window_sum = 0  # To track sum/count/other metrics
+    result = 0  # Store the final result
+
+    for right in range(len(nums)):  # Expand the window
+        # Include nums[right] in the window
+        window_sum += nums[right]
+
+        # (For fixed-size window) Ensure the window size is exactly k
+        if right - left + 1 == k:
+            # Process result (e.g., max/min/sum/average)
+            result = max(result, window_sum)  # Example operation
+            # Shrink the window by removing leftmost element
+            window_sum -= nums[left]
+            left += 1
+
+        # (For variable-size window) Adjust left pointer dynamically
+        while condition_not_met(window_sum):  # Define your condition
+            window_sum -= nums[left]
+            left += 1
+
+        # You can update `result` here if needed
+
+    return result

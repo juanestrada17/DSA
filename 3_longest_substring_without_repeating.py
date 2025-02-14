@@ -1,130 +1,86 @@
-# s = "abcabcbb"
+s = "abcabcbb"
 s = "pwwkewp"
-# s = "bbbb"
-# s= "abcabcbb"
-# s = "dvdf"
-# s = " "
+s = "bbbb"
+s= "abcabcbb"
+s = "dvdf"
+s = " "
 # Objective = Find len of longest substring without
 # repeating characters
 
-
-
-
-def lengthOfLongestSubstring(s: str) -> int:
-    char_index = {}  # Stores character and its last index
-    max_length = 0
-    left = 0
-
-    for right in range(len(s)):
-        if s[right] in char_index and char_index[s[right]] >= left:
-            # let's say it's pwwkewp
-            # pw -> left is 0, right is 1
-            # pww -> left BECOMES 2, right is 2 -> we update index of w to be 2
-            # pw/ wke -> left is 2, right is 4
-            # pw/wkew -> left BECOMES 3, right is 5 -> We update index of w to be 5
-            left = char_index[s[right]] + 1  # Move left to avoid repeating character
-        
-        char_index[s[right]] = right  # Update the index of the current character
-        max_length = max(max_length, right - left + 1)
-
-    return max_length
-
-print(lengthOfLongestSubstring(s))
-
-# Initial solution
-# def is_valid_substring(s):
-#     n = len(s)
-#     setN = len(set(s))
-    
-#     return n == setN
-
-# left, right = 0, 1 
-# count = 0 
-# max_count = 0
-# while right <= len(s):
-#     if is_valid_substring(s[left:right]):
-#         max_count = max(max_count, len(s[left:right]))
-#     else:
-#         left += 1
-#     right += 1
-# print(max_count)    
-
-    
-
-
-
-
-
-# max_len = 0
-# for index, letter in enumerate(s):
-#     print(s[index:])
-#     if is_valid_substring(s[index:]):
-#         max_len = max(max_len, len(s[index:]))
-    
-# print(max_len)
-
-    
-    
-
+# Dynamic window 
+# left is the first element, right is the first element also 
+# We can check the frequency of each letter, if the letter exceeds 1, then shrink 
 
 # Example 
-# s = "abcabcbb"
-# 3 
+# left, right =  0, 0 / {d: 1} -> max is 1
+# left, right = 0, 1 / {d: 1, v: 1} -> max is 2
+# left, right = 0, 2 / {d:2, v:1} -> Since d violates the condition we shrink window
+# left, right = 1, 2 / {d:1, v: 1} -> max is 2 
+# left, right = 1, 3 / {d:1, v:1, f:1} -> max is 3, res is 3  
 
-# nums_count = []
-# count = 0
-# max_count = 0
-# right = 0  
-# for letter in s:
-#     if letter not in nums_count:
-#         nums_count.append(letter)
-#         count += 1
-#         max_count = max(max_count, count)
-#     else:
-#         max_count = max(max_count, count)
-#         left = 0 
-#         if nums_count[left] == letter:
-#             nums_count.pop(left)
-#         else:
-#             while nums_count[left] != letter:
-#                 nums_count.pop(left)
-#         nums_count.append(letter)
-#         count = len(nums_count)
-# print(max_count)
-# when there's a repeated element 
-# calculate len, append rep element, slice from prev - current
+# A set would be more suitable, rather than a hashmap 
+left = 0 
+letter_freq = {}
+longest_sub = 0 
+for Rindex, right in enumerate(s):
+    
+    while right in letter_freq: 
+        del letter_freq[s[left]]
+        left += 1
+    
+    window_size = (Rindex - left) + 1
+    longest_sub = max(longest_sub, window_size)
+    letter_freq[right] = 1
+print(longest_sub)
+
+# s = "pwwkewp"
+# left, right = 0, 0 / {p:1} -> max is 1
+# left, right = 0, 1 / {p:1, w:1}
+# left, right = 0, 2 / {p:1, w:2} -> violates
+# left, right = 1, 2 / {w:2} -> violates
+# left, right = 2, 2 / {w:1} 
+# left, right = 2, 3 / {w:1, k:1}
+# left, right = 2, 4 / {w:1, k:1, e:1}
+# left, right = 2, 5 / {w:2, k:1, e:1} -> violates
+# left, right = 3, 5 / {w:1, k:1, e:1}
+# left, right = 3, 6 / {w:1, k:1, e:1, p:1} -> max is 4 
+
+# An approach with a set 
+def lengthOfLongestSubstring(s: str) -> int:
+    left = 0
+    char_set = set()
+    longest_sub = 0
+
+    for right in range(len(s)):
+        # Shrink the window if the character is already in the set
+        while s[right] in char_set:
+            char_set.remove(s[left])  # Remove leftmost character
+            left += 1  # Move left pointer forward
+        
+        char_set.add(s[right])  # Add new character to the set
+        longest_sub = max(longest_sub, right - left + 1)  # Update max length
+    
+    return longest_sub
 
 
 
-# d -> v (count 2)
-# since d is in left part 
-# v -> d -> f (count 3)
-# -----------------------
-# a -> b -> c (count 3)
-# since a is in left part 
-# b -> c -> a 
-# c -> a -> b
-# a -> b -> c 
-# b -> c 
-# b 
-# ------------------------
-# abcb
-# a -> b -> c 
-# b -> c 
-# c -> b
+# def lengthOfLongestSubstring(s: str) -> int:
+#     char_index = {}  # Stores character and its last index
+#     max_length = 0
+#     left = 0
 
+#     for right in range(len(s)):
+#         if s[right] in char_index and char_index[s[right]] >= left:
+#             # let's say it's pwwkewp
+#             # pw -> left is 0, right is 1
+#             # pww -> left BECOMES 2, right is 2 -> we update index of w to be 2
+#             # pw/ wke -> left is 2, right is 4
+#             # pw/wkew -> left BECOMES 3, right is 5 -> We update index of w to be 5
+#             left = char_index[s[right]] + 1  # Move left to avoid repeating character
+        
+#         char_index[s[right]] = right  # Update the index of the current character
+#         max_length = max(max_length, right - left + 1)
 
+#     return max_length
 
-
-# Example 2:
-
-# Input: s = "bbbbb"
-# Output: 1
-# Explanation: The answer is "b", with the length of 1.
-# Example 3:
-
-# Input: s = "pwwkew"
-# Output: 3
-# Explanation: The answer is "wke", with the length of 3.
-# Notice that the answer must be a substring, "pwke" is a subsequence and not a substring.
- 
+# print(lengthOfLongestSubstring(s))
