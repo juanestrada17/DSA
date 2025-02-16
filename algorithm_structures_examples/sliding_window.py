@@ -29,13 +29,9 @@ print(max_sum_subarray(arr, k))  # Output: 9 (5 + 1 + 3)
 
 
 # These tips might be helpful for sliding window problems:
-
 # Remember that you usually declare two pointers initialized to 0 and need two loops
-
 # You need an outer for loop to increment right pointer at each iteration.
-
 # You need an inner while loop to increment the left pointer whenever the window/subarray is invalid.
-
 # Algorithm template 
 
 def sliding_window(nums, k):
@@ -63,3 +59,14 @@ def sliding_window(nums, k):
         # You can update `result` here if needed
 
     return result
+
+# Permutation  -> 
+# Different ways you can arrange a set of items where order matters 
+# Example =
+# ABC, ACB, BCA, BAC, CAB, CBA -> 6 permutations
+# The formula is n!
+# n!=n×(n−1)×(n−2)×⋯×2×1
+
+# When we want to find only r items from the string we do ->
+# P(n,r)= n! / (n−r)!
+
