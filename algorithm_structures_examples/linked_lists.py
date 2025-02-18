@@ -46,6 +46,14 @@ print(linked_list_els(linked_list_head))
 # Dummy Nodes =>
 # A temporary placeholder
 
+# Slow pointers  vs. Fast Pointers
+# Move 1 at time vs. Move 2 at time
+
+# Finding middle in linked lists 
+# When Fast pointers finish the end, slow pointers position represents end. 
+
+
+
 
 
 
