@@ -52,6 +52,9 @@ head = nodes_with_rands
 # return 
 
 def deep_copy(head):
+    if not head:
+        return None 
+    
     current = head
     
     references = {}
@@ -72,21 +75,8 @@ def deep_copy(head):
     
     return references[head]
 
-res = deep_copy(head)
-
-# list= [[7,None],[13,0],[11,4],[10,2],[1,0]]
-print(res)
-# print(linked_list_els(res))
-
-
 # Second approach 
 # Create a copy of the node by using its value and set it to be the next of the original
-
-# while head:
-#     print(head.val)
-#     head = head.next
-    
-
 
 
 # 1 -> 1 -> No next node 
