@@ -7,3 +7,5 @@
 668_kth_smallest_number
 33_search_in_rotated
 239_sliding_window_maximum
+2_add_two_numbers
+287_find_duplicate_number
