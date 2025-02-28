@@ -1,131 +1,136 @@
-# Create an LRU cache
-
-# Base knowledge to solve it -> Doubly linked list: each node contains a data element and two links pointing to the next
-# and previous node
-
-# Node of a doubly linked list
+# Each node has the key and the value
 class Node:
-    def __init__(self, data=None, next=None, prev=None, ):
-        # reference to next node in DLL
+    def __init__(self, key=None, value=None, next=None, prev=None):
+        self.key = key
+        self.value = value 
         self.next = next
-        # reference to previous node in DLL
         self.prev = prev
-        self.data = data
+
+
+class LRUCache:
+    def __init__(self, capacity: int):
+        self.capacity = capacity
+        self.head = None
+        self.tail = None
+        self.keyVals = {}
+    
+    # Retrieve all elements in head
+    def print_all(self):
+        current = self.head
+        while current: 
+            print(f"{current.key}:{current.value}")
+            current = current.next
+
+    # Insert start method 
+    def insert_start(self, key, value):
+        new_node = Node(key, value)
         
-def create_ddl_from_list(list):
-    head = Node(list[0])
-    curr = head
-    for el in list[1:]:
-        new_node = Node(el)
-        curr.next = new_node
-        new_node.prev = curr    
-        curr = curr.next
-    return head
-
-def print_all_vals(head):
-    current = head
-    while current:
-        print(current.data)
-        current = current.next
+        # Stores reference of it to the dict
+        self.keyVals[key] = new_node
         
-
-
-ddl = create_ddl_from_list([1,2,3,4,5])
-# Objetive => 
-# It has a capacity 
-
-# When we call the put to add a new element to the cache we have to make it the most used, shifting it to the head
-# When we call the get, we make that element the most used 
-# Example 
-
-# Capacity is 2 
-# put -> [2,2] Latest is 2,2 (Head, most recently used)
-# put -> [3,3] Latest is 3,3 (head, most recently used)
-# put -> [1,1] add [1,1] to head -> Pop last element from array
-
-# Capacity is 2 
-# put -> [2,2] Latest is 2,2 (Head, most recently used)
-# put -> [3,3] Latest is 3,3 (head, most recently used)
-# get -> [2,2] latest is 2,2 
-
-
-# TODO -> Create a method to delete the node with a certain key  """ DONE """" 
-# TODO -> Create a way to insert a key to the beginning of the DLL -> When we perform put we use this method """ DONE """
-# TODO -> merge delete node + append beggining -> when we perform GET we use this method 
-# TODO -> Have a conditional that checks if the capacity is exceeded 
-# TODO -> If capacity is exceeded we append new node, delete last node 
-# Do we need a hash map storing the keys and their references?
-
-
-def delete_last_node(head):
-    if head is None:
-        return None
+        if self.head is None:
+            self.head = new_node
+            self.tail = new_node
+        else:
+            new_node.next = self.head
+            self.head.prev = new_node
+            self.head = new_node
+        return self.head
     
-    if head.next is None:
-        return None
-    # get the element before the last 
-    current = head 
-    # Traverse till we get to the previous to last 
-    while current.next.next: 
-        current = current.next
+    def delete_node(self, key):
+        del_node = self.keyVals[key]
+        # If the del_node is the head
+        if del_node == self.head:
+            self.head = del_node.next
+    
+        if del_node.prev: 
+            del_node.prev.next = del_node.next
+        if del_node.next:
+            del_node.next.prev = del_node.prev
+
+        # Get a hold of its value
+        value = del_node.value
+
+        # Delete it from the list 
+        del del_node
+        # Delete it from the dictionary 
+        del self.keyVals[key]
+        return value
+
+    # This deletes the tail 
+    def delete_last_node(self):
+        if not self.tail:
+            return
+        del self.keyVals[self.tail.key]
+        # If head and tail are the same we just set them to none
+        if self.head == self.tail:
+            self.head = None
+            self.tail = None
+        else:
+            # We set the tail to the prev element 
+            self.tail = self.tail.prev
+            # We set the new tail's next to None 
+            self.tail.next = None
+    
+    def set_most_recent(self, key):
+        # Handles case when the tail is being set as the recent, we need to re arrange recents
+        if self.keyVals[key] == self.tail:
+            self.tail = self.tail.prev 
+        # Delete it at its position and from dict
+        del_value = self.delete_node(key)
+        # Insert at the start and add again to dictionary 
+        self.head = self.insert_start(key, del_value)
         
-    del_node = current.next
-    current.next = None
-    del del_node
-    return head
-
-def delete_node_key(head, key):
-    if head is None: 
-        return None
-    
-    current = head
-    # We pass current to handle case when key is not in he list 
-    while current and current.data != key:
-        current = current.next
+    # Retrieves the value if it exists, else, returns -1 
+    # Changes the position of latest to the new key 
+    def get(self, key: int) -> int:
+        # If the key exists we return its value
+        if key in self.keyVals: 
+            self.set_most_recent(key)
+            return self.keyVals[key].value
+        else: 
+            return -1 
         
-    # handles case when the deleted element is the head
-    if current == head: 
-        head = current.next
+    # 1. Adds new key - values to the LRU IF they don't exist 
+    # 2. If the len of the keyVals exceeds the capacity AND new key. We delete last and insert to start 
+    #     else : we add new key and value
+    def put(self, key: int, value: int) -> None:
+        if key in self.keyVals: 
+            # Set it as the most recent
+            self.set_most_recent(key)
+            # update its value
+            self.keyVals[key].value = value
+        else: 
+            if len(self.keyVals) < self.capacity:
+                self.head = self.insert_start(key, value)
+            else: 
+                self.delete_last_node()
+                self.head = self.insert_start(key, value)
     
-    
-    if current.next: 
-        current.next.prev = current.prev
-    if current.prev:
-        current.prev.next = current.next
+    def print_tail(self):
+        print(self.tail.key)
         
-    del current
         
-    return head 
-    
-
-def insert_ddl_start(head, value):
-    if head is None:
-        return None
-    
-    new_node = Node(value)
-    new_node.next = head
-    head.prev = new_node
-    return new_node
-    
-# the key becomes the most recently used 
-# 1. We delete the element with the delete_node_key
-# 2. we insert it to the start of the list  
-def get(ddl, key):
-    deleted_key = delete_node_key(head=ddl,key=key)
-    updated_ddl = insert_ddl_start(head=deleted_key, value=key)
-    return updated_ddl
-
-# if we don't exceed capacity 
-# insert beginning 
-def put(key, value, capacity):
-    
-    pass
-
-res = get(ddl, 5)
-      
-
-# deleted_val = delete_last_node(ddl)
+obj = LRUCache(capacity=1)
+obj.get(6)
+obj.get(8)
+obj.put(12,1)
+obj.get(2)
+obj.put(15,11)
+obj.print_all()
+# obj.put(5,2)
+# obj.put(1,15)
+# obj.put(4,2)
+# obj.get(4)
+# obj.put(15,15)
 
 
+# print(obj.get(1))
+# obj.delete()
 
+
+# head = None
+# test = insert_start(head, key=1, value=1)
+# test2 = insert_start(head, key=3, value =3)
+# print_all(test2)
 
