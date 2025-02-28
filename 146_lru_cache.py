@@ -118,19 +118,3 @@ obj.put(12,1)
 obj.get(2)
 obj.put(15,11)
 obj.print_all()
-# obj.put(5,2)
-# obj.put(1,15)
-# obj.put(4,2)
-# obj.get(4)
-# obj.put(15,15)
-
-
-# print(obj.get(1))
-# obj.delete()
-
-
-# head = None
-# test = insert_start(head, key=1, value=1)
-# test2 = insert_start(head, key=3, value =3)
-# print_all(test2)
-
