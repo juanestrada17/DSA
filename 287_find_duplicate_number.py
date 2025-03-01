@@ -47,3 +47,29 @@ class Solution:
 # will give us the duplicate. The distance from the start of the array to the cycle start is the same as the distance from the
 # meeting point back to the cycle start
 
+# At the meeting point:
+
+# The slow pointer has traveled 
+# 𝑝
+# p steps before entering the cycle, and after entering the cycle, it is 
+# (𝑐−𝑝)
+# (c−p) steps away from the start of the cycle.
+# This distance, 
+# (𝑐− 𝑝)
+# (c−p), is the key to finding the cycle entry point.
+# Visualizing the Movement
+# Let’s use a simple example to illustrate:
+
+# Suppose the cycle starts at node 3, so 
+# 𝑝 = 2
+# p=2 (there are 2 nodes before the cycle starts).
+# The cycle length is 
+# 𝑐=8
+# c=8.
+# At the point where slow and fast meet:
+
+# The slow pointer is effectively 
+# (𝑐−𝑝)=8−2=6
+# (c−p)=8−2=6 steps into the cycle.
+# Therefore, after the meeting point, the slow pointer is 6 steps into the cycle, and the fast pointer has also moved 
+# in such a way that it intersects with the slow pointer in the cycle.
