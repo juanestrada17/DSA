@@ -216,4 +216,14 @@ def find_dup(list):
         if slow == slow2:
             return slow 
     
+# Random elements problem
+# Node has a val, next and random 
+# We create a dictionary that contains the original node and a new created node with its value 
+# We access the value using Node(current.val) because we need a deep copy of it
+# The dictionary will contain the nodes with the values but with next and random still as none 
+# We have another pass through the head, but this time we assign the next values and random values 
+# dict[current_node].next = dict[current_node.next] 
+# dict[current_node].random = dict[current_node.random]
+
+    
     
