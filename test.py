@@ -15,3 +15,19 @@ pattern = r"(?:abc)\d+"
 matches = re.findall(pattern, text)
 # print(matches)
 print(10/0)
+
+test = [3,3,3,3,3,5,1]
+
+# str = "abc"
+
+# test = sorted(str)
+# res = ''.join(test)
+# print(res)
+
+sorted_nums = sorted(set(test), reverse= True)
+res = []
+for num in test: 
+    if num in sorted_nums:
+        res.append(sorted_nums.index(num) + 1)
+
+print(res)

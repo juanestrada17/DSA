@@ -10,7 +10,13 @@ class DoublyNode:
         self.val = val
         self.prev = prev
         self.next = next
-     
+
+class RandomNode:
+    def __init__(self, val=0, next=None, random=None):
+        self.val = val 
+        self.next = next
+        self.random = random
+
 # Print all values from a linked list 
 def print_all(head):
     current = head 
@@ -163,6 +169,51 @@ def remove_nth_from_end(head, n):
     return res.next
 removeTest = create_linked_list([1,2,3,4,5])
     
-    
-
+def add_two_numbers(l1, l2):
+    dummy = Node()
+    tail = dummy
+    current_sum = 0 
+    carry = 0
+    while l1 or l2 or carry: 
+        current_sum = carry 
+        
+        if l1:
+            current_sum += l1.val
+            l1 = l1.next
+        if l2:
+            current_sum += l2.val
+            l2 = l2.next
             
+        # Check if current sum exceeds 10 and calculate the carry 
+        new_node = current_sum % 10 
+        carry = current_sum // 10
+    
+        tail.next = Node(new_node)
+        tail = tail.next
+    return dummy.next
+
+add_l1 = create_linked_list([2,4,3])
+add_l2 = create_linked_list([5,6,4])
+sum_ll = add_two_numbers(add_l1, add_l2)
+# Expected output = [7,0,8]    
+
+def find_dup(list):
+    # Find cycle using hare and tortoise algorithm
+    fast, slow = 0, 0 
+    
+    while True: 
+        slow = list[slow]
+        fast = list[list[fast]]
+        
+        if slow == fast: 
+            break 
+    # Beginning of the array 
+    slow2 = 0 
+    while True: 
+        slow = list[slow]
+        slow2 = list[slow2]
+        
+        if slow == slow2:
+            return slow 
+    
+    
