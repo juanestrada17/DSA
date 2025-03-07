@@ -107,6 +107,12 @@ def mergeKListsHeap(lists):
 resHeap = mergeKListsHeap(lists)
 print_all(resHeap)
 
+# We push all heads into the heap, the heapq stores them from smallest to largest 
+# When we pop we are popping the smallest element, and if it exists replacing it with the next value of that linked list
+# we add it each time to the dummy's tail
+# Example execution for lists = [[1,4,5],[1,3,4],[2,6]] will be 
+# [1,1,2] -> [4,1,2] -> [4,3,2] -> [4,3,6] -> [4, 4, 6] -> [5, 4, 6] -> [5, 6] -> [6] -> [] 
+# When the heap is empty, we finish the process
     
      
     
