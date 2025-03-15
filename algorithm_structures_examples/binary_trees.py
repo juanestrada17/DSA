@@ -28,7 +28,7 @@ class TreeNode:
         self.right = None
     # Insert node 
     def insert(self, data):
-        # Inserts root node if the tree has no data
+        # Since root node can be None upon initialization we handle this case by just setting it 
         if self.data is None:
             self.data = data
             return
@@ -99,26 +99,31 @@ class TreeNode:
         # We traversed either right or left and key == root.data
         else: 
             # If it's a leaf node - No children, just remove node
+            # This part is usually called in the self.DeleteNode(root.left) / self.DeleteNode(root.right) at the top and returns
+            # None, as it returns none root.left = None / root.right = None -> Recursion 
             if root.left is None and root.right is None: 
                 return None 
             
             # If node has a child, delete node and replace it with its single child 
+            # If it doesn't have a left, we return its right 
             elif root.left is None: 
                 return root.right
+            # If it doesn't have a right, we return its left  
             elif root.right is None: 
                 return root.left 
             
-            # If node has two children, find smallest node 
+            # We find the in order sucessor, remember its the smallest leaf value to the right of the current node
             else: 
                 successor = self.find_min(root.right)
                 root.data = successor.data 
+         
                 root.right = self.DeleteNode(root.right, successor.data)
         return root 
     
     # This finds the inorder sucessor -> An inorder sucessor is the smallest value node on the right of the current node 
     def find_min(self, node):
         current = node 
-        # We navigate until there's no more left. 
+        # We navigate until there's no more left and we reach the leaf node 
         while current.left is not None: 
             current = current.left
         return current 
@@ -132,7 +137,7 @@ root.insert(13)
 # print(root.TraverseOrder(root))  
 print(root.PreOrderTraverse(root))
 root.DeleteNode(root, 6)
-print(root.PreOrderTraverse(root))
+# print(root.PreOrderTraverse(root))
 
 
 # Manual Insertion       
@@ -158,3 +163,20 @@ print(root.PreOrderTraverse(root))
 # BFS => Nodes on the same level are visited before going to next level in trees. Sideways
 
 # DFS => Down the tree to the leaf nodes. Downwards direction. 
+# binT = TreeNode(5)
+# binT.insert_node(4)
+# binT.insert_node(3)
+# binT.insert_node(2)
+# binT.insert_node(6)
+# binT.insert_node(7)
+# print(binT.preOrderTraverse(binT))
+# binT.delete_node(binT, 6)
+# print(binT.preOrderTraverse(binT))
+
+# print(binT.preOrderTraverse(binT))
+# print(binT.inOrderTraverse(binT))
+# print(binT.data)
+# print(binT.left.data)
+# print(binT.right.data)
+# print(binT.findInorderSucessor(binT.right))
+# print(binT.postOrderTraverse(binT))
