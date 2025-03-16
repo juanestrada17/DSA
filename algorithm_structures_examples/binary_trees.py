@@ -1,6 +1,14 @@
 # Terminology =
 # Tree size = Amount of nodes in the tree
 # Tree height = Maximum number of edges from root node to leaf node. 
+# Tree height VS. Tree depth =
+# The height of a node is the number of edges on the longest path from a node to a leaf
+# The depth of a node is the number of edges from the root to a node -> Root has a depth of 0 while each child is parent's depth + 1
+# Example
+# root = 10         -> height is 1, depth = 0
+# root.left = 5     -> height is 0, depth = 1
+# root.right = 15   -> height is 0, depth = 1
+
 
 # Benefits =
 # Fast access, insertion and deletion of nodes. 
