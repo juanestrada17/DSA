@@ -136,6 +136,7 @@ class TreeNode:
             current = current.left
         return current 
 
+    
 root = TreeNode(10)
 root.insert(8) 
 root.insert(5)

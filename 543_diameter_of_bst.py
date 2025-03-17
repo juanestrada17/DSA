@@ -11,27 +11,27 @@ class TreeNode:
         self.left = left
         self.right = right
         
-    # Neetcode solution
-    def diameterOfBinTree(self, root):
-        # Variable that stores the diameter
-        self.res = 0 
         
-        # Returns the max height 
+        
+    def diameterOfBinTree(self, root):
+        # Store diameter in a variable 
+        self.diameter = 0
         def dfs(curr):
-            if not curr:
+            # If we reach a leaf node we return 0 
+            if not curr: 
                 return 0 
-            # Max depth to left
-            left = dfs(curr.left)
-            # Max depth to right
-            right = dfs(curr.right)
             
-            # We add the two and set it to the diameter
-            self.res = max(self.res, left + right)
-            # keeps hold of diameter
+            # We do a post order traversal so we run the function over the left and right side 
+            left = dfs(curr.left)
+            right = dfs(curr.right)   
+            
+            # We calculate the diameter with the current left and right 
+            self.diameter = max(self.diameter, left + right)
+            
+            # This calculates the height
             return 1 + max(left, right)
         dfs(root)
-        return self.res 
-    
+        return self.diameter
     
 tree = TreeNode(3)
 
