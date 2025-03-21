@@ -225,5 +225,21 @@ def find_dup(list):
 # dict[current_node].next = dict[current_node.next] 
 # dict[current_node].random = dict[current_node.random]
 
+def mergeKSortedLists(lists):
+    # Use the existing merge sorted lists method to solve this 
+
+    while len(lists) > 1: 
+        # Current merged lists 
+        mergedLists = []
+
+        # Merge advancing two elements 
+        for i in range(0, len(lists), 2):
+             
+            l1 = lists[i]
+            # If 1 + 1 doesn't exceed the len of the list, meaning it's not out of bounds
+            l2 = lists[i + 1] if i + 1 < len(lists) else None
+            mergedLists.append(merge_sorted_llists(l1, l2))
+        lists = mergedLists
+    return lists[0]
     
     
