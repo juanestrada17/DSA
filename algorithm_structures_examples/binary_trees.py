@@ -27,6 +27,12 @@
 # Max heap -> Root is always the largest node
 # Min Heap -> root is always the smallest node
 
+# One way to remember the difference between depth and height is:
+# Depth → "How deep is the node buried in the tree?"
+# Height → "How high can the node reach from its position?"
+
+
+
 # Implementation - EACH node can be linked to its left or right nodes. 
 
 class TreeNode: 
