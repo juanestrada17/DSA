@@ -39,39 +39,43 @@ def twoSomeSorted(numbers, target):
 numbers = [2,7,11,15]
 target = 9 # target = 22  if target 9 reduce right, if target 22 increase left 
 
+# Objective is to find all triplets that add up to 0 in an array 
 def TreeSum(nums):
-    # find triplets that have a sum of 0
-    # We need to sort the numbers so that k will be the largest element and i will be the lowest 
+    # We need to sort this, this will allow a similar solution to the twoSomeSorted problem 
     nums.sort()
-    
-    # i is the first element, base loop
     res = []
+    # We have three pointers 
+    # Pointer 1 is the current element with multiple combinations 
     for i in range(len(nums) - 1):
-        
-        # Check for dups 
-        # check if element before current i is not the same 
+        # We need to check for duplicates, let's say nums[0] and nums[1] are both 1, we need to prevent this 
+        # We continue the loop if this is the case 
         if i > 0 and nums[i] == nums[i - 1]:
             continue
-        
-        j = i + 1 # element after current i 
-        k = len(nums) - 1 # last element 
-        
-        # We need to add the tree element 
+        # Pointer 2 is initially the element after pointer 1 
+        j = i + 1 
+        # Pointer 3 is the last element of the array  
+        k = len(nums) - 1 
+
+        # Evaluate if their sum is 0         
         while j < k:  
+            # Check if their sum is 0
             total = nums[i] + nums[j] + nums[k]
-            
-            if total == 0: 
+
+            if total == 0:
+                # Add them to the array 
                 res.append([nums[i], nums[j], nums[k]])
-                j += 1 
-            # If its higher than 0 it means we need to search in a lower element
+                # Increment j to see if there are other combinations  
+                j += 1
+            
+            # If the total is higher than 0 
             elif total > 0: 
-                k -= 1 
-            else:
-                # total is less than 0, we need to search a higher element
+                k -= 1
+            # if the total is less than 0  
+            else: 
                 j += 1 
-            # Check for j duplicates             
-            if j < k and nums[j] != nums[j - 1]:
-                j += 1 
+                # We need to check for duplicates also with j similar to the code above 
+                while nums[j] == nums[j - 1] and j < k: 
+                    j += 1
     return res 
 
 # Width = higher index - smaller index
@@ -96,3 +100,24 @@ def maxArea(height):
         
 
 height = [1,8,6,2,5,4,8,3,7]
+  
+def trap(height):
+    # Objective = Return the amount of water it can trap between elevations
+    trappedWater = 0
+    left, right = 0, len(height) - 1
+    # Left and right boundaries 
+    maxLeft, maxRight = height[left], height[right]
+    while left < right: 
+        # Calculate how much water is trapped to the left 
+        if maxLeft < maxRight: 
+            # Example -> maxLeft is 1 and current left or height[left] is 0. Then trapped water becomes 1 
+            trappedWater += maxLeft - height[left]
+            left += 1
+            # We check if the current left is exceeds the previous max 
+            maxLeft = max(maxLeft, height[left])
+        else:
+            # When the maxLeft >= maxRight  
+            trappedWater += maxRight - height[right]
+            right -= 1
+            maxRight = max(maxRight, height[right])
+    return trappedWater
