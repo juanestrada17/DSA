@@ -26,12 +26,13 @@ def twoSomeSorted(numbers, target):
     # Return index + 1 of the sum of two numbers that add up to the target 
     left, right = 0, len(numbers) - 1
     
-    currSum = numbers[left] + numbers[right]
     
     while left < right: 
+        currSum = numbers[left] + numbers[right]
+
         if currSum == target:
             return [left + 1, right + 1]
-        if currSum  > target:
+        elif currSum  > target:
             right -= 1
         else:
             left += 1 
