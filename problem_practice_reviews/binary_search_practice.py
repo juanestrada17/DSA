@@ -117,8 +117,6 @@ def minEatingSpeedH(piles, h):
             left = mid + 1
     return left      
 
-    
-
 piles = [3,6,7,11]
 h = 8 
 # Expected 4 -> eats 4 hour 1 
@@ -130,6 +128,116 @@ h = 8
 # eats 4 hour 7 -> 3 remain
 # eats 3 hour 8 -> 0 remain. All piles eaten 
 
-piles = [30, 11, 23, 4, 20]
-h = 5 
-# expected = 30 
+def shipPacksDays(weights, days):
+    # Objective: determine the capacity at which the weights can be shipped withing days 
+    # weights = [1,2,3,4,5,6,7,8,9,10] / days = 5 / output = 15 
+    # Helper function to determine if a capacity works for the amount of days give 
+    def possibleCapacity(capacity): 
+        # get a hold of the days passed 
+        daysPassed = 1 
+        # get a hold of the sum within days 
+        currentDaySum = 0
+        for weight in weights: 
+            
+            # if the sum exceeds the capacity we pass a day and reset current day sum 
+            if currentDaySum + weight > capacity: 
+                daysPassed += 1
+                currentDaySum = weight
+            
+            # add weight
+            else:
+                currentDaySum += weight
+        # true if the daysPassed are lower or equal to the days 
+        return daysPassed <= days
+    # Min and max 
+    minCapacity = max(weights) # The min capacity can't ever be lower than the max element in the weights. Ex: [1,10], can't ever be 1 because it can't ship 10
+    maxCapacity = sum(weights) # if all of them are shipped in the same day, that would be the case with the max capacity 
+    left, right = minCapacity, maxCapacity
+    # binary search 
+    while left < right:
+        capacity = left + (right - left) // 2
+        
+        # If it's a possible capacity we search a lower possible capacity 
+        if possibleCapacity(capacity): 
+            right = capacity
+        else: 
+            left = capacity + 1
+    # always return the min
+    return left
+    
+weights = [1,2,3,4,5,6,7,8,9,10]
+days = 5 
+
+
+def minBouquetDays(bloomDay, m, k):
+    # Objective = make m bouquets with k adjacent flowers 
+    # example = [7,7,7,7,12,7,7], m = 2, k = 3. Make two with 3 adjacent flowers
+    
+    # If the amount of flowers surpases the bloom day flowers 
+    if m * k > len(bloomDay):
+        return - 1  
+    
+    # We pass it a day, we try to form m bouquets with the given day
+    def formBouquets(day):
+        addedFlower = 0
+        bucketSum = 0 
+        for bDay in bloomDay:
+            # this means it has bloomed 
+            if bDay <= day:
+                # add a flower to a bouquet
+                addedFlower += 1
+                # if we reach k, it means the bouquet is complete
+                if addedFlower == k:
+                    bucketSum += 1
+                    addedFlower = 0      
+            else: 
+                # If there are no adjacent flowers we reset it 
+                addedFlower = 0 
+        return bucketSum >= m
+                 
+        
+    # Determine min - max 
+    left, right = min(bloomDay), max(bloomDay)
+    while left < right: 
+        mid = left + (right - left) // 2 
+        
+        if formBouquets(mid):
+            right = mid
+        else:
+            left = mid + 1 
+    return left
+bloomDay = [1,10,3,10, 2]
+m = 3 
+k = 1
+
+def kthSmallestInTable(m, n, k):
+    # Objective = Return the kth smallest element in the table m * n.
+    # ex: 3 * 3 ->  k = 5 -> [1,2,2,3,3,4,6,6,9] -> the fifth smallest num is 3 
+    def isPossible(target):
+        count = 0 
+        
+        # row 
+        for num in range(1, m + 1):
+            # find how many values satisfy it being lower than target
+            rowLessThanTarget = min(target // num, n)
+            count += rowLessThanTarget
+        
+        return count >= k
+    
+    
+    # min, max 
+    left, right = 1, n * m
+    
+    while left < right: 
+        mid = left + (right - left) // 2
+
+        if isPossible(mid):
+            right = mid 
+        else:
+            left = mid + 1 
+    return left 
+        
+    
+m = 3
+n = 3 
+k = 5 
