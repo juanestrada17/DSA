@@ -241,3 +241,29 @@ def kthSmallestInTable(m, n, k):
 m = 3
 n = 3 
 k = 5 
+
+def searchInRotatedArray(nums, target):
+    # Objective = The array is sorted, but there might be a pivot. Example = [4,5,6,7,0,1,2], target = 0. Perform bisearch with o(log n)
+    # We need to check if either the left side or the right side is sorted 
+    
+    left, right = 0, len(nums) - 1
+    
+    while left < right: 
+        mid = left + (right - left) // 2 
+        
+        if nums[mid] == target:
+            return nums[mid]
+        
+        # This means the array is sorted to the left 
+        elif nums[left] <= nums[mid]:
+            # if the target is within left and mid, we search more elements on the left side
+            if nums[left] <= target < nums[mid]:
+                right = mid 
+            else: 
+                left = mid + 1
+        else:
+            if nums[mid] < target <= nums[right]:
+                left = mid + 1
+            else:
+                right = mid - 1
+    
